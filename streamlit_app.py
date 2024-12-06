@@ -2,61 +2,41 @@ import streamlit as st
 import pandas as pd
 import random
 
-# ローカルファイルからExcelファイルを読み込む関数
-def load_questions_from_local(file_path):
-    # pandasのread_excel関数を使ってローカルファイルを読み込む
-    df = pd.read_excel(file_path)
-    return df
+# Excelファイルの読み込み
+df = pd.read_excel('path_to_your_excel_file.xlsx')
 
-# アプリケーションのUI部分
-def app():
-    st.title("問題出題アプリ")
+# 問題と正解の列を取り出す
+questions = df.iloc[:, 0].tolist()  # 1列目が問題
+answers = df.iloc[:, 1].tolist()  # 2列目が答え
 
-    # ローカルのExcelファイルのパス
-    file_path = 'blue archive.xlsx'  # ローカルのファイルパスを指定
+# 誤答候補を生成するために、他の問題の答えをランダムに使う
+def get_incorrect_answers(correct_answer, answers, num_choices=3):
+    incorrect_answers = [answer for answer in answers if answer != correct_answer]
+    return random.sample(incorrect_answers, num_choices)
 
-    # Excelファイルを読み込む
-    try:
-        questions_df = load_questions_from_local(file_path)
-        st.write("問題データが正常に読み込まれました。")
+# Streamlitで問題を表示
+st.title("Quiz App")
 
-        # DataFrameの表示（デバッグ用）
-        st.write(questions_df)
+# ランダムで問題を選ぶ
+random_index = random.randint(0, len(questions) - 1)
+question = questions[random_index]
+correct_answer = answers[random_index]
 
-        # 問題が読み込まれた場合
-        if not questions_df.empty:
-            # 問題をランダムにシャッフル
-            questions = questions_df['問題'].tolist()
-            answers = questions_df['答え'].tolist()
+# 誤答をランダムに選ぶ
+incorrect_answers = get_incorrect_answers(correct_answer, answers)
 
-            # 正解以外の誤答を他の問題の答えからランダムに選ぶ
-            incorrect_answers_pool = [ans for ans in answers]
+# 正解と誤答を含む選択肢を作成
+choices = incorrect_answers + [correct_answer]
+random.shuffle(choices)
 
-            # 問題と選択肢をランダムに出題
-            for idx, question in enumerate(random.sample(questions, len(questions))):  # 問題をランダムに出題
-                correct_answer = answers[questions.index(question)]
-                
-                # ここでは他の問題の答えからランダムに誤答を選ぶ
-                incorrect_answers = random.sample([ans for ans in incorrect_answers_pool if ans != correct_answer], 3)
+# 問題を表示
+st.write(question)
 
-                # 正解を含めて選択肢を作成
-                options = [correct_answer] + incorrect_answers
-                random.shuffle(options)  # 選択肢をランダムに並べ替え
+# ユーザーに選択肢を表示して、答えを選ばせる
+selected_answer = st.radio("選択してください", choices)
 
-                # 問題を表示
-                st.write(f"問題 {idx + 1}: {question}")
-                answer = st.radio("選択肢", options, key=f"question_{idx}")
-
-                # 正誤判定
-                if st.button('回答', key=f'button_{idx}'):
-                    if answer == correct_answer:
-                        st.success("正解！")
-                    else:
-                        st.error("不正解。")
-        else:
-            st.warning("問題がありません。Excelファイルを確認してください。")
-    except Exception as e:
-        st.error(f"Excelファイルの読み込みに失敗しました: {e}")
-
-if __name__ == "__main__":
-    app()
+# 回答結果を表示
+if selected_answer == correct_answer:
+    st.success("正解です！")
+else:
+    st.error(f"間違いです。正解は「{correct_answer}」です。")
