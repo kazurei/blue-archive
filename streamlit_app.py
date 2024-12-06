@@ -1,21 +1,23 @@
 import streamlit as st
-st.title("")
-def load_questions_from_url(url):
-    # pandasのread_excel関数を使ってURLからExcelファイルを読み込む
-    df = pd.read_excel(url)
+import pandas as pd
+import random
+
+# ローカルファイルからExcelファイルを読み込む関数
+def load_questions_from_local(file_path):
+    # pandasのread_excel関数を使ってローカルファイルを読み込む
+    df = pd.read_excel(file_path)
     return df
 
 # アプリケーションのUI部分
 def app():
     st.title("問題出題アプリ")
 
-    # GitHubにアップロードされたExcelファイルのURL（生のURL）
-    # GitHubリポジトリのrawファイルのURLを指定してください
-    file_url = 'https://github.com/your_username/your_repository/raw/main/questions.xlsx'
+    # ローカルのExcelファイルのパス
+    file_path = 'blue archive.xlsx'  # ローカルのファイルパスを指定
 
     # Excelファイルを読み込む
     try:
-        questions_df = load_questions_from_url(file_url)
+        questions_df = load_questions_from_local(file_path)
         st.write("問題データが正常に読み込まれました。")
 
         # DataFrameの表示（デバッグ用）
@@ -23,11 +25,23 @@ def app():
 
         # 問題が読み込まれた場合
         if not questions_df.empty:
-            # 各問題のタイトルと選択肢を出題
-            for idx, row in questions_df.iterrows():
-                question = row['問題']
-                options = [row['選択肢1'], row['選択肢2'], row['選択肢3'], row['選択肢4']]
-                correct_answer = row['正解']
+            # 問題をランダムにシャッフル
+            questions = questions_df['問題'].tolist()
+            answers = questions_df['答え'].tolist()
+
+            # 正解以外の誤答を他の問題の答えからランダムに選ぶ
+            incorrect_answers_pool = [ans for ans in answers]
+
+            # 問題と選択肢をランダムに出題
+            for idx, question in enumerate(random.sample(questions, len(questions))):  # 問題をランダムに出題
+                correct_answer = answers[questions.index(question)]
+                
+                # ここでは他の問題の答えからランダムに誤答を選ぶ
+                incorrect_answers = random.sample([ans for ans in incorrect_answers_pool if ans != correct_answer], 3)
+
+                # 正解を含めて選択肢を作成
+                options = [correct_answer] + incorrect_answers
+                random.shuffle(options)  # 選択肢をランダムに並べ替え
 
                 # 問題を表示
                 st.write(f"問題 {idx + 1}: {question}")
