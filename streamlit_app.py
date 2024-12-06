@@ -3,7 +3,7 @@ import pandas as pd
 import random
 
 # Excelファイルの読み込み
-df = pd.read_excel('path_to_your_excel_file.xlsx')
+df = pd.read_excel('blue archive.xlsx')
 
 # クイズの問題列、正解列、誤答列の設定
 questions = df.iloc[:, 0].tolist()  # 1列目：問題
