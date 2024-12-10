@@ -27,7 +27,7 @@ st.title("クイズアプリ")
 st.write(question)
 
 # ユーザーに選択肢を表示して、答えを選ばせる
-selected_answer = st.button("選択してください", choices)
+selected_answer = st.radio("選択してください", choices)
 
 # 回答結果を表示
 if selected_answer == correct_answer:
