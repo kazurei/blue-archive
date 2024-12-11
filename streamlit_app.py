@@ -29,6 +29,7 @@ st.write(question)
 if "answered" not in st.session_state:
     st.session_state.answered = False
     st.session_state.result = ""
+    st.session_state.correct_answer = ""
 
 # ボタンで選択肢を表示
 for choice in choices:
@@ -38,6 +39,7 @@ for choice in choices:
                 st.session_state.result = "正解です！"
             else:
                 st.session_state.result = f"間違いです。正解は「{correct_answer}」です。"
+            st.session_state.correct_answer = correct_answer
             st.session_state.answered = True
 
 # 結果を表示
