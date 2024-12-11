@@ -15,6 +15,8 @@ if "current_index" not in st.session_state:
 if "answered" not in st.session_state:
     st.session_state.answered = False
     st.session_state.result = ""
+if "correct" not in st.session_state:
+    st.session_state.correct = False
 
 # 現在の問題と正解を取得
 current_index = st.session_state.current_index
@@ -38,14 +40,17 @@ for choice in choices:
         if not st.session_state.answered:
             if choice == correct_answer:
                 st.session_state.result = "正解です！"
+                st.session_state.correct = True
             else:
                 st.session_state.result = f"間違いです。正解は「{correct_answer}」です。"
+                st.session_state.correct = False
             st.session_state.answered = True
 
 # 結果を表示
 if st.session_state.answered:
     st.write(st.session_state.result)
-    if st.button("次の問題へ"):
+    if st.session_state.correct and st.button("次の問題へ"):
         st.session_state.current_index = random.randint(0, len(questions) - 1)
         st.session_state.answered = False
         st.session_state.result = ""
+        st.session_state.correct = False
