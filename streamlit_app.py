@@ -35,7 +35,7 @@ if not st.session_state.choices:
 st.title("ブルアカ苗字クイズ")
 
 # ランダムで選んだ問題を表示
-st.write(question)
+st.write("このキャラクターの苗字は？："+ question)
 
 # ボタンで選択肢を表示
 for choice in st.session_state.choices:
