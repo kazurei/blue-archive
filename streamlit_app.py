@@ -21,7 +21,7 @@ choices = random.sample(other_answers, 3) + [correct_answer]  # 正解と誤答�
 random.shuffle(choices)
 
 # Streamlitで問題を表示
-st.title("クイズアプリ")
+st.title("ブルアカ苗字クイズ")
 
 # ランダムで選んだ問題を表示
 st.write(question)
