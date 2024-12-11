@@ -52,7 +52,7 @@ for choice in st.session_state.choices:
 # 結果を表示
 if st.session_state.answered:
     st.write(st.session_state.result)
-    if st.session_state.correct and st.button("次の問題へ"):
+    if st.button("次の問題へ"):
         st.session_state.current_index = random.randint(0, len(questions) - 1)
         st.session_state.answered = False
         st.session_state.result = ""
