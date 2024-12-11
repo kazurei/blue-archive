@@ -17,16 +17,19 @@ if "answered" not in st.session_state:
     st.session_state.result = ""
 if "correct" not in st.session_state:
     st.session_state.correct = False
+if "choices" not in st.session_state:
+    st.session_state.choices = []
 
 # 現在の問題と正解を取得
 current_index = st.session_state.current_index
 question = questions[current_index]
 correct_answer = correct_answers[current_index]
 
-# 他の問題から誤答をランダムに選ぶ
-other_answers = [answer for i, answer in enumerate(correct_answers) if i != current_index]
-choices = random.sample(other_answers, 3) + [correct_answer]  # 正解と誤答を含む選択肢
-random.shuffle(choices)
+# 選択肢を保持または作成
+if not st.session_state.choices:
+    other_answers = [answer for i, answer in enumerate(correct_answers) if i != current_index]
+    st.session_state.choices = random.sample(other_answers, 3) + [correct_answer]  # 正解と誤答を含む選択肢
+    random.shuffle(st.session_state.choices)
 
 # Streamlitで問題を表示
 st.title("ブルアカ苗字クイズ")
@@ -35,7 +38,7 @@ st.title("ブルアカ苗字クイズ")
 st.write(question)
 
 # ボタンで選択肢を表示
-for choice in choices:
+for choice in st.session_state.choices:
     if st.button(choice):
         if not st.session_state.answered:
             if choice == correct_answer:
@@ -54,3 +57,4 @@ if st.session_state.answered:
         st.session_state.answered = False
         st.session_state.result = ""
         st.session_state.correct = False
+        st.session_state.choices = []
