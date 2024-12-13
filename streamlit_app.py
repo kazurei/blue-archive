@@ -44,8 +44,8 @@ with tab1:
 
     # ボタンで選択肢を表示
     for choice in st.session_state["choices_tab1"]:
-        # choiceが無効な値でないか確認
-        if choice:
+        # choiceが有効な文字列か確認
+        if isinstance(choice, str) and choice.strip():  # choiceが文字列であり、空でないことを確認
             if st.button(choice):
                 if not st.session_state["answered_tab1"]:
                     if choice == correct_answer:
@@ -93,8 +93,8 @@ with tab2:
 
     # ボタンで選択肢を表示
     for choice in st.session_state["choices_tab2"]:
-        # choiceが無効な値でないか確認
-        if choice:
+        # choiceが有効な文字列か確認
+        if isinstance(choice, str) and choice.strip():  # choiceが文字列であり、空でないことを確認
             if st.button(choice):
                 if not st.session_state["answered_tab2"]:
                     if choice == correct_answer:
