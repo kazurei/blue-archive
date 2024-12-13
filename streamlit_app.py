@@ -112,18 +112,18 @@ with tab2:
                 # ボタンで選択肢を表示
                 for choice in st.session_state["choices_tab2"]:
     # choiceがnanでないか確認
-    if isinstance(choice, str) and choice.strip():  # choiceが文字列であり、空でないことを確認
-        if pd.isna(choice):  # choiceがnanであれば、ユニークなkeyを設定
-            choice = "unknown_choice"  # "unknown_choice"など適当な文字列に置き換える
-        if st.button(choice, key=f"button_{choice}"):  # 一意のkeyを指定
-            if not st.session_state["answered_tab2"]:
-                if choice == correct_answer:
-                    st.session_state["result_tab2"] = "正解です！"
-                    st.session_state["correct_tab2"] = True
-                else:
+                  if isinstance(choice, str) and choice.strip():  # choiceが文字列であり、空でないことを確認
+                    if pd.isna(choice):  # choiceがnanであれば、ユニークなkeyを設定
+                      choice = "unknown_choice"  # "unknown_choice"など適当な文字列に置き換える
+                  if st.button(choice, key=f"button_{choice}"):  # 一意のkeyを指定
+                    if not st.session_state["answered_tab2"]:
+                      if choice == correct_answer:
+                        st.session_state["result_tab2"] = "正解です！"
+                        st.session_state["correct_tab2"] = True
+                  else:
                     st.session_state["result_tab2"] = f"間違いです。正解は「{correct_answer}」です。"
                     st.session_state["correct_tab2"] = False
-                st.session_state["answered_tab2"] = True
+                  st.session_state["answered_tab2"] = True
 
 
         # 結果を表示
