@@ -100,18 +100,13 @@ with tab2:
                 random.shuffle(st.session_state["choices_tab2"])
 
             # 問題が正しく取得できているか確認
-            if not question or question is None:
+            if not isinstance(question, str) or not question.strip():  # 文字列かつ空でないかを確認
                 st.error("問題が正しく取得できませんでした。")
             else:
                 # 問題が取得できている場合にのみ表示
                 st.title("ブルアカ固有武器クイズ")
-                
-                # `question` が空でないことを確認
-                if question.strip():  # 空文字列ではないか確認
-                    st.write("このキャラクターの固有武器は？：" + question)
-                else:
-                    st.error("問題が正しく表示できません。")
-                
+                st.write("このキャラクターの固有武器は？：" + question)
+
                 # ボタンで選択肢を表示
                 for choice in st.session_state["choices_tab2"]:
                     if isinstance(choice, str) and choice.strip():  # choiceが文字列であり、空でないことを確認
@@ -134,3 +129,5 @@ with tab2:
                 st.session_state["result_tab2"] = ""
                 st.session_state["correct_tab2"] = False
                 st.session_state["choices_tab2"] = []
+
+     
