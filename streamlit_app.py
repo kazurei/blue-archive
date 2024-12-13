@@ -65,12 +65,12 @@ with tab1:
 with tab2:
     st.header("固有武器")
     df = pd.read_excel('blue archive.xlsx')
-    questions = df.iloc[:, 3].tolist()  # 1列目：問題
+    questions2 = df.iloc[:, 3].tolist()  # 1列目：問題
     correct_answers = df.iloc[:, 4].tolist()  # 2列目：正解
   
   # 回答結果を保持するためのセッション状態を初期化
     if "current_index" not in st.session_state:
-      st.session_state.current_index = random.randint(0, len(questions) - 1)
+      st.session_state.current_index = random.randint(0, len(questions2) - 1)
     if "answered" not in st.session_state:
       st.session_state.answered = False
       st.session_state.result = ""
@@ -81,7 +81,7 @@ with tab2:
   
   # 現在の問題と正解を取得
     current_index = st.session_state.current_index
-    question = questions[current_index]
+    question2= question2[current_index]
     correct_answer = correct_answers[current_index]
   
   # 選択肢を保持または作成
@@ -94,7 +94,7 @@ with tab2:
     st.title("ブルアカ固有武器クイズ")
   
   # ランダムで選んだ問題を表示
-    st.write("このキャラクターの固有武器は？："+ question)
+    st.write("このキャラクターの固有武器は？："+ question2)
   
   # ボタンで選択肢を表示
     for choice in st.session_state.choices:
@@ -112,7 +112,7 @@ with tab2:
     if st.session_state.answered:
       st.write(st.session_state.result)
       if st.button("次の問題へ"):
-          st.session_state.current_index = random.randint(0, len(questions) - 1)
+          st.session_state.current_index = random.randint(0, len(questions2)- 1)
           st.session_state.answered = False
           st.session_state.result = ""
           st.session_state.correct = False
