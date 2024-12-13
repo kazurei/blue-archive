@@ -65,8 +65,8 @@ with tab1:
 with tab2:
     st.header("固有武器")
     df = pd.read_excel('blue archive.xlsx')
-    questions = df.iloc[:, 3].tolist()  # 1列目：問題
-    correct_answers = df.iloc[:, 4].tolist()  # 2列目：正解
+    questions = df.iloc[:, 2].tolist()  # 1列目：問題
+    correct_answers = df.iloc[:, 3].tolist()  # 2列目：正解
   
   # 回答結果を保持するためのセッション状態を初期化
     if "current_index" not in st.session_state:
