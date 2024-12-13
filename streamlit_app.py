@@ -109,16 +109,17 @@ with tab2:
 
                 # ボタンで選択肢を表示
                 for choice in st.session_state["choices_tab2"]:
-                    if isinstance(choice, str) and choice.strip():  # choiceが文字列であり、空でないことを確認
-                        if st.button(choice):
-                            if not st.session_state["answered_tab2"]:
-                                if choice == correct_answer:
-                                    st.session_state["result_tab2"] = "正解です！"
-                                    st.session_state["correct_tab2"] = True
-                                else:
-                                    st.session_state["result_tab2"] = f"間違いです。正解は「{correct_answer}」です。"
-                                    st.session_state["correct_tab2"] = False
-                                st.session_state["answered_tab2"] = True
+                  if isinstance(choice, str) and choice.strip():  # choiceが文字列であり、空でないことを確認
+                    if st.button(choice, key=f"button_{choice}"):  # 一意のkeyを指定
+                      if not st.session_state["answered_tab2"]:
+                        if choice == correct_answer:
+                          st.session_state["result_tab2"] = "正解です！"
+                          st.session_state["correct_tab2"] = True
+                else:
+                    st.session_state["result_tab2"] = f"間違いです。正解は「{correct_answer}」です。"
+                    st.session_state["correct_tab2"] = False
+                st.session_state["answered_tab2"] = True
+
 
         # 結果を表示
         if st.session_state["answered_tab2"]:
