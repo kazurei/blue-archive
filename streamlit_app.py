@@ -81,7 +81,7 @@ with tab2:
   
   # 現在の問題と正解を取得
     current_index = st.session_state.current_index
-    question= question[current_index]
+    question= questions[current_index]
     correct_answer = correct_answers[current_index]
   
   # 選択肢を保持または作成
