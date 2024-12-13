@@ -38,23 +38,26 @@ with tab1:
         st.session_state["choices_tab1"] = random.sample(other_answers, 3) + [correct_answer]
         random.shuffle(st.session_state["choices_tab1"])
 
-    # Streamlitで問題を表示
-    st.title("ブルアカ苗字クイズ")
-    st.write("このキャラクターの苗字は？：" + question)
+    # 問題が正しく取得できているか確認
+    if not question or question is None:
+        st.error("問題が正しく取得できませんでした。")
+    else:
+        # Streamlitで問題を表示
+        st.title("ブルアカ苗字クイズ")
+        st.write("このキャラクターの苗字は？：" + question)
 
-    # ボタンで選択肢を表示
-    for choice in st.session_state["choices_tab1"]:
-        # choiceが有効な文字列か確認
-        if isinstance(choice, str) and choice.strip():  # choiceが文字列であり、空でないことを確認
-            if st.button(choice):
-                if not st.session_state["answered_tab1"]:
-                    if choice == correct_answer:
-                        st.session_state["result_tab1"] = "正解です！"
-                        st.session_state["correct_tab1"] = True
-                    else:
-                        st.session_state["result_tab1"] = f"間違いです。正解は「{correct_answer}」です。"
-                        st.session_state["correct_tab1"] = False
-                    st.session_state["answered_tab1"] = True
+        # ボタンで選択肢を表示
+        for choice in st.session_state["choices_tab1"]:
+            if isinstance(choice, str) and choice.strip():  # choiceが文字列であり、空でないことを確認
+                if st.button(choice):
+                    if not st.session_state["answered_tab1"]:
+                        if choice == correct_answer:
+                            st.session_state["result_tab1"] = "正解です！"
+                            st.session_state["correct_tab1"] = True
+                        else:
+                            st.session_state["result_tab1"] = f"間違いです。正解は「{correct_answer}」です。"
+                            st.session_state["correct_tab1"] = False
+                        st.session_state["answered_tab1"] = True
 
     # 結果を表示
     if st.session_state["answered_tab1"]:
@@ -87,23 +90,26 @@ with tab2:
         st.session_state["choices_tab2"] = random.sample(other_answers, 3) + [correct_answer]
         random.shuffle(st.session_state["choices_tab2"])
 
-    # Streamlitで問題を表示
-    st.title("ブルアカ固有武器クイズ")
-    st.write("このキャラクターの固有武器は？：" + question)
+    # 問題が正しく取得できているか確認
+    if not question or question is None:
+        st.error("問題が正しく取得できませんでした。")
+    else:
+        # Streamlitで問題を表示
+        st.title("ブルアカ固有武器クイズ")
+        st.write("このキャラクターの固有武器は？：" + question)
 
-    # ボタンで選択肢を表示
-    for choice in st.session_state["choices_tab2"]:
-        # choiceが有効な文字列か確認
-        if isinstance(choice, str) and choice.strip():  # choiceが文字列であり、空でないことを確認
-            if st.button(choice):
-                if not st.session_state["answered_tab2"]:
-                    if choice == correct_answer:
-                        st.session_state["result_tab2"] = "正解です！"
-                        st.session_state["correct_tab2"] = True
-                    else:
-                        st.session_state["result_tab2"] = f"間違いです。正解は「{correct_answer}」です。"
-                        st.session_state["correct_tab2"] = False
-                    st.session_state["answered_tab2"] = True
+        # ボタンで選択肢を表示
+        for choice in st.session_state["choices_tab2"]:
+            if isinstance(choice, str) and choice.strip():  # choiceが文字列であり、空でないことを確認
+                if st.button(choice):
+                    if not st.session_state["answered_tab2"]:
+                        if choice == correct_answer:
+                            st.session_state["result_tab2"] = "正解です！"
+                            st.session_state["correct_tab2"] = True
+                        else:
+                            st.session_state["result_tab2"] = f"間違いです。正解は「{correct_answer}」です。"
+                            st.session_state["correct_tab2"] = False
+                        st.session_state["answered_tab2"] = True
 
     # 結果を表示
     if st.session_state["answered_tab2"]:
