@@ -121,4 +121,9 @@ with tab2:
     # 結果を表示
     if st.session_state.answered:
         st.write(st.session_state.result)
-        if st
+        if st.button("次の問題へ"):
+            st.session_state.current_index = random.randint(0, len(questions) - 1)
+            st.session_state.answered = False
+            st.session_state.result = ""
+            st.session_state.correct = False
+            st.session_state.choices = []
