@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import random
+import numpy as np
 
 tab_titles = ["苗字クイズ", "固有武器"]
 tab1, tab2 = st.tabs(tab_titles)
@@ -72,6 +73,7 @@ with tab1:
 with tab2:
     st.header("固有武器")
     df = pd.read_excel('blue archive.xlsx')
+    df = df.fillna("デフォルトの値")
 
     questions = df.iloc[:, 2].astype(str).tolist()  # 3列目：問題を文字列に変換
     correct_answers = df.iloc[:, 3].astype(str).tolist()  # 4列目：答えを文字列に変換
@@ -109,12 +111,15 @@ with tab2:
 
                 # ボタンで選択肢を表示
                 for choice in st.session_state["choices_tab2"]:
-                  if isinstance(choice, str) and choice.strip():  # choiceが文字列であり、空でないことを確認
-                    if st.button(choice, key=f"button_{choice}"):  # 一意のkeyを指定
-                      if not st.session_state["answered_tab2"]:
-                        if choice == correct_answer:
-                          st.session_state["result_tab2"] = "正解です！"
-                          st.session_state["correct_tab2"] = True
+    # choiceがnanでないか確認
+    if isinstance(choice, str) and choice.strip():  # choiceが文字列であり、空でないことを確認
+        if pd.isna(choice):  # choiceがnanであれば、ユニークなkeyを設定
+            choice = "unknown_choice"  # "unknown_choice"など適当な文字列に置き換える
+        if st.button(choice, key=f"button_{choice}"):  # 一意のkeyを指定
+            if not st.session_state["answered_tab2"]:
+                if choice == correct_answer:
+                    st.session_state["result_tab2"] = "正解です！"
+                    st.session_state["correct_tab2"] = True
                 else:
                     st.session_state["result_tab2"] = f"間違いです。正解は「{correct_answer}」です。"
                     st.session_state["correct_tab2"] = False
