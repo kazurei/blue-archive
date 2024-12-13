@@ -44,15 +44,17 @@ with tab1:
 
     # ボタンで選択肢を表示
     for choice in st.session_state["choices_tab1"]:
-        if st.button(choice):
-            if not st.session_state["answered_tab1"]:
-                if choice == correct_answer:
-                    st.session_state["result_tab1"] = "正解です！"
-                    st.session_state["correct_tab1"] = True
-                else:
-                    st.session_state["result_tab1"] = f"間違いです。正解は「{correct_answer}」です。"
-                    st.session_state["correct_tab1"] = False
-                st.session_state["answered_tab1"] = True
+        # choiceが無効な値でないか確認
+        if choice:
+            if st.button(choice):
+                if not st.session_state["answered_tab1"]:
+                    if choice == correct_answer:
+                        st.session_state["result_tab1"] = "正解です！"
+                        st.session_state["correct_tab1"] = True
+                    else:
+                        st.session_state["result_tab1"] = f"間違いです。正解は「{correct_answer}」です。"
+                        st.session_state["correct_tab1"] = False
+                    st.session_state["answered_tab1"] = True
 
     # 結果を表示
     if st.session_state["answered_tab1"]:
@@ -91,15 +93,17 @@ with tab2:
 
     # ボタンで選択肢を表示
     for choice in st.session_state["choices_tab2"]:
-        if st.button(choice):
-            if not st.session_state["answered_tab2"]:
-                if choice == correct_answer:
-                    st.session_state["result_tab2"] = "正解です！"
-                    st.session_state["correct_tab2"] = True
-                else:
-                    st.session_state["result_tab2"] = f"間違いです。正解は「{correct_answer}」です。"
-                    st.session_state["correct_tab2"] = False
-                st.session_state["answered_tab2"] = True
+        # choiceが無効な値でないか確認
+        if choice:
+            if st.button(choice):
+                if not st.session_state["answered_tab2"]:
+                    if choice == correct_answer:
+                        st.session_state["result_tab2"] = "正解です！"
+                        st.session_state["correct_tab2"] = True
+                    else:
+                        st.session_state["result_tab2"] = f"間違いです。正解は「{correct_answer}」です。"
+                        st.session_state["correct_tab2"] = False
+                    st.session_state["answered_tab2"] = True
 
     # 結果を表示
     if st.session_state["answered_tab2"]:
