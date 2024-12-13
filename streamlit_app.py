@@ -73,8 +73,8 @@ with tab2:
     st.header("固有武器")
     df = pd.read_excel('blue archive.xlsx')
 
-    questions = df.iloc[:, 2].tolist()  # 3列目：問題
-    correct_answers = df.iloc[:, 3].tolist()  # 4列目：正解
+    questions = df.iloc[:, 2].astype(str).tolist()  # 3列目：問題を文字列に変換
+    correct_answers = df.iloc[:, 3].astype(str).tolist()  # 4列目：答えを文字列に変換
 
     # データが空でないか確認
     if not questions or not correct_answers:
@@ -130,4 +130,4 @@ with tab2:
                 st.session_state["correct_tab2"] = False
                 st.session_state["choices_tab2"] = []
 
-     
+    
