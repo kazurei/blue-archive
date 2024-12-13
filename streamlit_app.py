@@ -76,47 +76,61 @@ with tab2:
     questions = df.iloc[:, 2].tolist()  # 3列目：問題
     correct_answers = df.iloc[:, 3].tolist()  # 4列目：正解
 
-    # セッション状態の初期化（固有武器用）
-    initialize_quiz_state("tab2", len(questions))
-
-    # 現在の問題と正解を取得
-    current_index = st.session_state["current_index_tab2"]
-    question = questions[current_index]
-    correct_answer = correct_answers[current_index]
-
-    # 選択肢を保持または作成
-    if not st.session_state["choices_tab2"]:
-        other_answers = [answer for i, answer in enumerate(correct_answers) if i != current_index]
-        st.session_state["choices_tab2"] = random.sample(other_answers, 3) + [correct_answer]
-        random.shuffle(st.session_state["choices_tab2"])
-
-    # 問題が正しく取得できているか確認
-    if not question or question is None:
-        st.error("問題が正しく取得できませんでした。")
+    # データが空でないか確認
+    if not questions or not correct_answers:
+        st.error("問題または正解データが空です。Excelファイルを確認してください。")
     else:
-        # Streamlitで問題を表示
-        st.title("ブルアカ固有武器クイズ")
-        st.write("このキャラクターの固有武器は？：" + question)
+        # セッション状態の初期化（固有武器用）
+        initialize_quiz_state("tab2", len(questions))
 
-        # ボタンで選択肢を表示
-        for choice in st.session_state["choices_tab2"]:
-            if isinstance(choice, str) and choice.strip():  # choiceが文字列であり、空でないことを確認
-                if st.button(choice):
-                    if not st.session_state["answered_tab2"]:
-                        if choice == correct_answer:
-                            st.session_state["result_tab2"] = "正解です！"
-                            st.session_state["correct_tab2"] = True
-                        else:
-                            st.session_state["result_tab2"] = f"間違いです。正解は「{correct_answer}」です。"
-                            st.session_state["correct_tab2"] = False
-                        st.session_state["answered_tab2"] = True
+        # 現在の問題と正解を取得
+        current_index = st.session_state["current_index_tab2"]
+        
+        # current_index が有効か確認
+        if current_index < 0 or current_index >= len(questions):
+            st.error(f"無効なインデックスです: {current_index}. インデックスが範囲外です。")
+        else:
+            question = questions[current_index]
+            correct_answer = correct_answers[current_index]
 
-    # 結果を表示
-    if st.session_state["answered_tab2"]:
-        st.write(st.session_state["result_tab2"])
-        if st.button("次の問題へ"):
-            st.session_state["current_index_tab2"] = random.randint(0, len(questions) - 1)
-            st.session_state["answered_tab2"] = False
-            st.session_state["result_tab2"] = ""
-            st.session_state["correct_tab2"] = False
-            st.session_state["choices_tab2"] = []
+            # 選択肢を保持または作成
+            if not st.session_state["choices_tab2"]:
+                other_answers = [answer for i, answer in enumerate(correct_answers) if i != current_index]
+                st.session_state["choices_tab2"] = random.sample(other_answers, 3) + [correct_answer]
+                random.shuffle(st.session_state["choices_tab2"])
+
+            # 問題が正しく取得できているか確認
+            if not question or question is None:
+                st.error("問題が正しく取得できませんでした。")
+            else:
+                # 問題が取得できている場合にのみ表示
+                st.title("ブルアカ固有武器クイズ")
+                
+                # `question` が空でないことを確認
+                if question.strip():  # 空文字列ではないか確認
+                    st.write("このキャラクターの固有武器は？：" + question)
+                else:
+                    st.error("問題が正しく表示できません。")
+                
+                # ボタンで選択肢を表示
+                for choice in st.session_state["choices_tab2"]:
+                    if isinstance(choice, str) and choice.strip():  # choiceが文字列であり、空でないことを確認
+                        if st.button(choice):
+                            if not st.session_state["answered_tab2"]:
+                                if choice == correct_answer:
+                                    st.session_state["result_tab2"] = "正解です！"
+                                    st.session_state["correct_tab2"] = True
+                                else:
+                                    st.session_state["result_tab2"] = f"間違いです。正解は「{correct_answer}」です。"
+                                    st.session_state["correct_tab2"] = False
+                                st.session_state["answered_tab2"] = True
+
+        # 結果を表示
+        if st.session_state["answered_tab2"]:
+            st.write(st.session_state["result_tab2"])
+            if st.button("次の問題へ"):
+                st.session_state["current_index_tab2"] = random.randint(0, len(questions) - 1)
+                st.session_state["answered_tab2"] = False
+                st.session_state["result_tab2"] = ""
+                st.session_state["correct_tab2"] = False
+                st.session_state["choices_tab2"] = []
