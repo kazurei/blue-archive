@@ -69,14 +69,12 @@ with tab2:
     # Excelファイルの読み込み
     df = pd.read_excel('blue archive.xlsx')
 
-    # 4列目（答えの列）を文字列として処理し、nanや不正データを取り除く
-    df.iloc[:, 3] = df.iloc[:, 3].astype(str).fillna("無回答")  # nanを"無回答"に置き換え
-    df.iloc[:, 3] = df.iloc[:, 3].replace(r'[^\w\s]', '', regex=True)  # 記号を削除
-    df.iloc[:, 3] = df.iloc[:, 3].str.strip()  # 前後のスペースを削除
+    # 3列目（問題列）のNaNを除外
+    df_cleaned = df.dropna(subset=[df.columns[2]])
 
-    # 固有武器の問題列と正解列の設定
-    questions_w = df.iloc[:, 2].tolist()  # 3列目：問題
-    correct_answers_w = df.iloc[:, 3].tolist()  # 4列目：正解
+    # 固有武器の問題列と正解列の設定（NaN除外後）
+    questions_w = df_cleaned.iloc[:, 2].tolist()  # 3列目：問題
+    correct_answers_w = df_cleaned.iloc[:, 3].tolist()  # 4列目：正解
 
     # 回答結果を保持するためのセッション状態を初期化（固有武器クイズ用）
     if "current_index_w" not in st.session_state:
@@ -127,3 +125,4 @@ with tab2:
             st.session_state.result_w = ""
             st.session_state.correct_w = False
             st.session_state.choices_w = []
+
