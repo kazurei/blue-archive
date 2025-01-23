@@ -3,7 +3,7 @@ import pandas as pd
 import random
 
 tab_titles = ["苗字クイズ", "固有武器","所属"]
-tab1, tab2 = st.tabs(tab_titles)
+tab1, tab2 ,tab3= st.tabs(tab_titles)
 
 with tab1:
     # Excelファイルの読み込み
@@ -123,4 +123,4 @@ with tab2:
             st.session_state.result_w = ""
             st.session_state.correct_w = False
             st.session_state.choices_w = []
-
+with tab3:
