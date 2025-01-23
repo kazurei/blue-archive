@@ -124,3 +124,5 @@ with tab2:
             st.session_state.correct_w = False
             st.session_state.choices_w = []
 with tab3:
+    # Excelファイルの読み込み
+    df = pd.read_excel('blue archive.xlsx')
