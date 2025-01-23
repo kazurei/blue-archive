@@ -64,7 +64,6 @@ with tab1:
             st.session_state.choices_m = []
 
 with tab2:
-    st.header("固有武器")
     # Excelファイルの読み込み
     df = pd.read_excel('blue archive.xlsx')
 
