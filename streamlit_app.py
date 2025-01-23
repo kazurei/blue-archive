@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import random
 
-tab_titles = ["苗字クイズ", "固有武器","所属"]
+tab_titles = ["苗字クイズ", "固有武器","所属部活"]
 tab1, tab2 ,tab3= st.tabs(tab_titles)
 
 with tab1:
