@@ -126,3 +126,59 @@ with tab2:
 with tab3:
     # Excelファイルの読み込み
     df = pd.read_excel('blue archive.xlsx')
+    # 1列目（問題列）のNaNを除外
+    df_cleaned = df.dropna(subset=[df.columns[0]])
+
+    # 固有武器の問題列と正解列の設定（NaN除外後）
+    questions_a = df_cleaned.iloc[:, 0].tolist()  # 1列目：問題
+    correct_answers_a = df_cleaned.iloc[:, 5].tolist()  # 6列目：正解
+
+    # 回答結果を保持するためのセッション状態を初期化（固有武器クイズ用）
+    if "current_index_a" not in st.session_state:
+        st.session_state.current_index_a = random.randint(0, len(questions_a) - 1)
+    if "answered_a" not in st.session_state:
+        st.session_state.answered_a = False
+        st.session_state.result_a = ""
+    if "correct_a" not in st.session_state:
+        st.session_state.correct_a = False
+    if "choices_a" not in st.session_state:
+        st.session_state.choices_a = []
+
+    # 現在の問題と正解を取得（固有武器クイズ用）
+    current_index_a = st.session_state.current_index_a
+    question_a = questions_a[current_index_a]
+    correct_answer_a = correct_answers_a[current_index_a]
+
+    # 選択肢を保持または作成（固有武器クイズ用）
+    if not st.session_state.choices_a:
+        other_answers_a = [answer for i, answer in enumerate(correct_answers_a) if i != current_index_a]
+        st.session_state.choices_a = random.sample(other_answers_a, 5) + [correct_answer_a]  # 正解と誤答を含む選択肢
+        random.shuffle(st.session_state.choices_a)
+
+    # Streamlitで問題を表示（固有武器クイズ用）
+    st.title("ブルアカ固有武器クイズ")
+
+    # ランダムで選んだ問題を表示（固有武器クイズ用）
+    st.write("このキャラクターの固有武器は？：" + question_a)
+
+    # ボタンで選択肢を表示（固有武器クイズ用）
+    for choice in st.session_state.choices_a:
+        if st.button(choice, key=f"button_a_{choice}"):  # 一意のkeyを指定
+            if not st.session_state.answered_a:
+                if choice == correct_answer_a:
+                    st.session_state.result_a = "正解です！"
+                    st.session_state.correct_a = True
+                else:
+                    st.session_state.result_a = f"間違いです。正解は「{correct_answer_a}」です。"
+                    st.session_state.correct_a = False
+                st.session_state.answered_a = True
+
+    # 結果を表示（固有武器クイズ用）
+    if st.session_state.answered_a:
+        st.write(st.session_state.result_a)
+        if st.button("次の問題へ"):
+            st.session_state.current_index_a = random.randint(0, len(questions_a) - 1)
+            st.session_state.answered_a = False
+            st.session_state.result_a = ""
+            st.session_state.correct_a = False
+            st.session_state.choices_a = []
