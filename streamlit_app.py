@@ -6,7 +6,7 @@ tab_titles = ["苗字クイズ", "固有武器"]
 tab1, tab2 = st.tabs(tab_titles)
 
 with tab1:
-    st.header("苗字クイズ")
+    st.header("苗字")
     # Excelファイルの読み込み
     df = pd.read_excel('blue archive.xlsx')
 
