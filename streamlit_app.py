@@ -57,7 +57,7 @@ with tab1:
     # 結果を表示（苗字クイズ用）
     if st.session_state.answered_m:
         st.write(st.session_state.result_m)
-        if st.button("次の問題へ（苗字）"):
+        if st.button("次の問題へ"):
             st.session_state.current_index_m = random.randint(0, len(questions) - 1)
             st.session_state.answered_m = False
             st.session_state.result_m = ""
@@ -119,7 +119,7 @@ with tab2:
     # 結果を表示（固有武器クイズ用）
     if st.session_state.answered_w:
         st.write(st.session_state.result_w)
-        if st.button("次の問題へ（固有武器）"):
+        if st.button("次の問題へ"):
             st.session_state.current_index_w = random.randint(0, len(questions_w) - 1)
             st.session_state.answered_w = False
             st.session_state.result_w = ""
