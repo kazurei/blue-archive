@@ -2,9 +2,9 @@ import streamlit as st
 import pandas as pd
 import random
 
-tab_titles = ["苗字クイズ", "固有武器","所属部活"]
+tab_titles = ["苗字クイズ", "固有武器"]
 tab1, tab2 = st.tabs(tab_titles)
-##tab3
+##tab3 ,"所属部活"
 with tab1:
     # Excelファイルの読み込み
     df = pd.read_excel('blue archive.xlsx')
